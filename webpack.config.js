@@ -26,5 +26,6 @@ module.exports = {
             historyApiFallback: true,
             contentBase: "./"
         }
-    }
+    },
+    devtool: 'sourcemap'
 }
