@@ -16,6 +16,11 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('User DISCONNECTED');
   });
+
+  socket.on('send:message', function(msg){
+    console.log(msg);
+    io.emit('send:message', msg);
+  });
 });
 
 
@@ -23,6 +28,6 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/src/index.html');
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(5000, function(){
+  console.log('listening on *:5000');
 });
