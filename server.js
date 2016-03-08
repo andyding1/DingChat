@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-app.use(express.static(__dirname));
+app.use(express.static("./public"));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -24,10 +24,11 @@ io.on('connection', function(socket){
 });
 
 
+
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/src/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
-http.listen(5000, function(){
-  console.log('listening on *:5000');
+http.listen(8080, function(){
+  console.log('listening on *:8080');
 });

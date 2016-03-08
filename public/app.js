@@ -12,10 +12,63 @@ var io = require('socket.io-client');
 
 var socket = io.connect();
 
+var alias;
+
+var App = React.createClass({
+  render: function() {
+    return (
+      <main>
+        {this.props.children}
+      </main>
+    );
+  }
+});
+
+var AliasPicker = React.createClass({
+	enterChat: function(event) {
+		event.preventDefault();
+		alias = this.refs.alias.value
+		browserHistory.push('/chat');
+	},
+	render: function() {
+		return (
+			<div>
+				<h1>Input an Alias</h1>
+				<form onSubmit={this.enterChat}>
+					<input ref="alias" type="text"></input>
+					<input type="submit"></input>
+				</form>
+			</div>
+		);
+	}
+})
+
+var UsersList = React.createClass({
+	render() {
+		return (
+			<div className='users'>
+				<h3> Online Users </h3>
+				<ul>
+					{
+						this.props.users.map((user, i) => {
+							return (
+								<li key={i}>
+									{user}
+								</li>
+							);
+						})
+					}
+				</ul>
+			</div>
+		);
+	}
+});
+
 var Message = React.createClass({
 	render: function() {
 		return (
 			<div className="message">
+        <strong>{this.props.user} :</strong>
 				<span>{this.props.text}</span>
 			</div>
 		);
@@ -32,6 +85,7 @@ var MessageList = React.createClass({
 						return (
 							<Message
 								key={i}
+                users={message.users}
 								text={message.text}
 							/>
 						);
@@ -54,7 +108,6 @@ var MessageForm = React.createClass({
 		this.props.onMessageSubmit(message);
 		this.setState({ text: '' });
 	},
-
 	changeHandler(e) {
 		this.setState({ text : e.target.value });
 	},
@@ -75,7 +128,7 @@ var MessageForm = React.createClass({
 	}
 });
 
-var App = React.createClass({
+var AppChat = React.createClass({
   getInitialState: function() {
     return{
       messages: [],
@@ -96,7 +149,10 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <main>
+      <div>
+        <UsersList
+          users={this.state.users}
+        />
         <MessageList
           messages={this.state.messages}
         />
@@ -104,10 +160,20 @@ var App = React.createClass({
           onMessageSubmit={this.handleMessage}
           user={this.state.user}
         />
-      </main>
+      </div>
     );
   }
 });
+
+var routes = (
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={AliasPicker}/>
+      <Route path="chat" component={AppChat}/>
+    </Route>
+  </Router>
+);
+
 
 // // home "page"
 // var Home = React.createClass({
@@ -120,13 +186,6 @@ var App = React.createClass({
 //   }
 // });
 
-// var routes = (
-//   <Router history={browserHistory}>
-//     <Route path="/" component={App}>
-//       <IndexRoute component={Home}/>
-//     </Route>
-//   </Router>
-// );
 
 // If this line of code is not here, nothing gets displayed!
-ReactDOM.render(<App/>, document.querySelector('#app'));
+ReactDOM.render(routes, document.querySelector('#app'));
