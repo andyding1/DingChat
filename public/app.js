@@ -123,16 +123,17 @@ var MessageForm = React.createClass({
 
 	render: function() {
 		return(
-			<div className='message_form'>
-				<h3>Input Message</h3>
-				<form onSubmit={this.handleSubmit}>
-					<input
-						onChange={this.changeHandler}
-						value={this.state.text}
-					/>
-          <input type="submit"></input>
+				<form onSubmit={this.handleSubmit} className="messageForm">
+          <div className="messageInput">
+  					<input
+  						onChange={this.changeHandler}
+  						value={this.state.text}
+              className="messageButton"
+              id="messageBox"
+  					/>
+            <input type="submit" value="SEND" className="messageButton" id="sendMessage"></input>
+          </div>
 				</form>
-			</div>
 		);
 	}
 });
@@ -199,17 +200,21 @@ var AppChat = React.createClass({
   },
   render: function() {
     return (
-      <div>
-        <UsersList
-					users={this.state.users}
-				/>
-        <MessageList
-          messages={this.state.messages}
-        />
-        <MessageForm
-          onMessageSubmit={this.handleMessage}
-          user={this.state.user}
-        />
+      <div id="appChat">
+        <div className="userComponent">
+          <UsersList
+  					users={this.state.users}
+  				/>
+        </div>
+        <div className="messageComponent">
+          <MessageList
+            messages={this.state.messages}
+          />
+          <MessageForm
+            onMessageSubmit={this.handleMessage}
+            user={this.state.user}
+          />
+        </div>
       </div>
     );
   }
