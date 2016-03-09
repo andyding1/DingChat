@@ -38,8 +38,12 @@ io.on('connection', function(socket){
     //User leaves chat room
     socket.on('disconnect', function(){
       //console.log('User DISCONNECTED');
+      var index = users.indexOf(alias)
+      users.splice(index,1);
+
       socket.broadcast.emit('user:left', {
-        name: alias
+        name: alias,
+        users: users
       });
     });
 

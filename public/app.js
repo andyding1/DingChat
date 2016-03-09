@@ -31,13 +31,16 @@ var AliasPicker = React.createClass({
 	},
 	render: function() {
 		return (
-			<div>
-				<h1>Input an Alias</h1>
-				<form onSubmit={this.enterChat}>
-					<input ref="alias" type="text"></input>
-					<input type="submit"></input>
-				</form>
-			</div>
+			<form onSubmit={this.enterChat} className="aliasForm">
+				<div className="header"><p>Input an Alias</p></div>
+        <div className="description">
+          <p>Enter the chatroom by inputting an alias.</p>
+        </div>
+        <div className="aliasInput">
+					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS"></input>
+					<input type="submit" className="button" value="ENTER" id="enter"></input>
+        </div>
+			</form>
 		);
 	}
 })
@@ -46,9 +49,9 @@ var AliasPicker = React.createClass({
 var UsersList = React.createClass({
 	render: function() {
 		return (
-			<div className='users'>
+			<div className="users">
 				<h3> Online Users </h3>
-				<ul>
+				<ul className="usersList">
 					{
 						this.props.users.map((user, i) => {
 							return (
@@ -172,11 +175,9 @@ var AppChat = React.createClass({
     });
   },
   userLeaves: function(data) {
-    var users = this.state.users;
+    var users = this.data.users;
     var messages = this.state.messages;
     var name = data.name;
-    var index = users.indexOf(name)
-    users.splice(index,1);
     messages.push({
       user: 'ADMIN',
       text: name + ' has left the building'
