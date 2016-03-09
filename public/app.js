@@ -138,22 +138,15 @@ var MessageForm = React.createClass({
 var AppChat = React.createClass({
   getInitialState: function() {
     return{
-      user: '',
       users: [],
       messages: [],
       text: ''
     }
   },
-  setUser(user){
-    this.setState({
-      user: user
-    })
-  },
   componentDidMount: function(){
     var that = this;
     socket.on('initialize', this.initialize);
-    socket.on('getUser', this.userJoins);
-    socket.on('getUserList', this.userJoins);
+    socket.on('user:join', this.userJoins);
     socket.on('user:left', this.userLeaves);
     socket.on('send:message', this.receiveMessage);
   },
@@ -167,32 +160,29 @@ var AppChat = React.createClass({
     });
   },
   userJoins: function(data) {
-    if(data.name){
-      var messages = this.state.messages;
-      var name = data.name;
-      messages.push({
-        text: data.name + ' has joined the building'
-      });
-      this.setState({
-        user: name,
-        messages: messages
-      })
-    }
-    if(data.users){
-      var users = data.users;
-      this.setState({
-        users: users
-      })
-    }
+    var users = this.state.users;
+    var messages = this.state.messages;
+    var name = data.name;
+    users.push(name);
+    messages.push({
+      user: 'ADMIN',
+      text: name + ' has joined the building'
+    });
+    this.setState({
+      users: users,
+      messages: messages
+    });
   },
   userLeaves: function(data) {
     var users = this.state.users;
     var messages = this.state.messages;
     var name = data.name;
-    users.splice(users.indexOf(name),1);
+    var index = users.indexOf(name)
+    users.splice(index,1);
     messages.push({
+      user: 'ADMIN',
       text: name + ' has left the building'
-    });
+    })
     this.setState({
       users: users,
       messages: messages

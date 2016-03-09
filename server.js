@@ -7,36 +7,39 @@ var io = require('socket.io')(http);
 var users = [];
 
 io.on('connection', function(socket){
-  console.log('User CONNECTED');
-  socket.broadcast.emit('initialize', {
-    name: '',
-    users: users
-  });
+
   //After user submits an alias
   socket.on('user:enter', function(alias){
-    users.push(alias);
-    //gets user list and emits to everyone
-    io.emit('getUserList', {
+    console.log('User CONNECTED');
+    //send the new user their name and list of users
+    socket.broadcast.emit('initialize', {
+      name: alias,
       users: users
-    })
-    //gets specific user alias and sets as name to just that socket
-    socket.emit('getUser', {
+    });
+
+    // notify other sockets that a new user has joined
+    socket.broadcast.emit('user:join', {
       name: alias
     });
+
+    socket.on('send:message', function(data){
+      io.emit('send:message', {
+        user: alias,
+        text: data.text
+      });
+    });
+
     //User leaves chat room
     socket.on('disconnect', function(){
       console.log('User DISCONNECTED');
       socket.broadcast.emit('user:left', {
-        users: users,
         name: alias
       });
     });
 
   });
 
-  socket.on('send:message', function(msg){
-    io.emit('send:message', msg);
-  });
+
 
 
 });
