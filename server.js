@@ -4,25 +4,42 @@ app.use(express.static("./public"));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-// io.on('connection', function(socket){
-//   socket.on('chat message', function(msg){
-//     io.emit('chat message', msg);
-//   });
-// });
-
+var users = [];
 
 io.on('connection', function(socket){
   console.log('User CONNECTED');
-  socket.on('disconnect', function(){
-    console.log('User DISCONNECTED');
+  socket.broadcast.emit('initialize', {
+    name: '',
+    users: users
+  });
+
+  socket.on('user:enter', function(alias){
+    console.log(socket.id);
+    users.push(alias);
+    console.log(users);
+
+    io.emit('getUserList', {
+      users: users
+    })
+
+    socket.emit('getUser', {
+      name: alias
+    });
+
   });
 
   socket.on('send:message', function(msg){
-    console.log(msg);
     io.emit('send:message', msg);
   });
-});
 
+  // socket.on('disconnect', function(){
+  //   console.log('User DISCONNECTED');
+  //   socket.broadcast.emit('user:left', {
+  //     users: users
+  //   });
+  // });
+
+});
 
 
 app.get('/', function(req, res){

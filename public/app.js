@@ -12,8 +12,6 @@ var io = require('socket.io-client');
 
 var socket = io.connect();
 
-var alias;
-
 var App = React.createClass({
   render: function() {
     return (
@@ -27,7 +25,8 @@ var App = React.createClass({
 var AliasPicker = React.createClass({
 	enterChat: function(event) {
 		event.preventDefault();
-		alias = this.refs.alias.value
+		var alias = this.refs.alias.value
+    socket.emit('user:enter', alias);
 		browserHistory.push('/chat');
 	},
 	render: function() {
@@ -44,7 +43,8 @@ var AliasPicker = React.createClass({
 })
 
 var UsersList = React.createClass({
-	render() {
+	render: function() {
+
 		return (
 			<div className='users'>
 				<h3> Online Users </h3>
@@ -68,7 +68,7 @@ var Message = React.createClass({
 	render: function() {
 		return (
 			<div className="message">
-        <strong>{this.props.user} :</strong>
+        <strong>{this.props.users}: </strong>
 				<span>{this.props.text}</span>
 			</div>
 		);
@@ -85,7 +85,7 @@ var MessageList = React.createClass({
 						return (
 							<Message
 								key={i}
-                users={message.users}
+                users={message.user}
 								text={message.text}
 							/>
 						);
@@ -98,18 +98,21 @@ var MessageList = React.createClass({
 
 var MessageForm = React.createClass({
 	getInitialState() {
-		return {text: ''};
+		return {
+      text: ''
+    };
 	},
-	handleSubmit(e) {
-		e.preventDefault();
+	handleSubmit(event) {
+		event.preventDefault();
 		var message = {
+      user: this.props.user,
 			text : this.state.text
 		}
 		this.props.onMessageSubmit(message);
 		this.setState({ text: '' });
 	},
-	changeHandler(e) {
-		this.setState({ text : e.target.value });
+	changeHandler(event) {
+		this.setState({ text : event.target.value });
 	},
 
 	render: function() {
@@ -131,18 +134,73 @@ var MessageForm = React.createClass({
 var AppChat = React.createClass({
   getInitialState: function() {
     return{
+      user: '',
+      users: [],
       messages: [],
       text: ''
     }
   },
+  setUser(user){
+    this.setState({
+      user: user
+    })
+  },
   componentDidMount: function(){
+    var that = this;
+    socket.on('initialize', this.initialize);
+    socket.on('getUser', this.userJoins);
+    socket.on('getUserList', this.userJoins);
+    socket.on('user:left', this.userLeaves);
     socket.on('send:message', this.receiveMessage);
   },
+  initialize: function(data) {
+    var users = data.users;
+    var name = data.name;
+    this.setState({
+      users: users,
+      name: name,
+      user: data.user
+    });
+  },
+  userJoins: function(data) {
+    console.log(data);
+    if(data.name){
+      var messages = this.state.messages;
+      var name = data.name;
+      messages.push({
+        text: data.name + ' has joined the building'
+      });
+      this.setState({
+        user: name,
+        messages: messages
+      })
+    }
+    if(data.users){
+      var users = data.users;
+      this.setState({
+        users: users
+      })
+    }
+  },
+  userLeaves: function(data) {
+    var users = this.state.users;
+    var messages = this.state.messages;
+    var name = data.name;
+    users.splice(users.indexOf(name),1);
+    messages.push({
+      text: name + 'has left the building'
+    });
+    this.setState({
+      users: users,
+      messages: messages
+    });
+  },
   receiveMessage: function(message) {
-      console.log(this.state);
-      var {messages} = this.state;
+      var messages = this.state.messages;
   		messages.push(message);
-  		this.setState({messages});
+  		this.setState({
+        messages: messages
+      });
   },
   handleMessage: function(message) {
     socket.emit('send:message', message);
@@ -151,8 +209,8 @@ var AppChat = React.createClass({
     return (
       <div>
         <UsersList
-          users={this.state.users}
-        />
+					users={this.state.users}
+				/>
         <MessageList
           messages={this.state.messages}
         />
@@ -173,18 +231,6 @@ var routes = (
     </Route>
   </Router>
 );
-
-
-// // home "page"
-// var Home = React.createClass({
-//   render: function() {
-//     return (
-//       <div>
-//         <h3>Welcome!</h3>
-//       </div>
-//     );
-//   }
-// });
 
 
 // If this line of code is not here, nothing gets displayed!
