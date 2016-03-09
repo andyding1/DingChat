@@ -12,18 +12,24 @@ io.on('connection', function(socket){
     name: '',
     users: users
   });
-
+  //After user submits an alias
   socket.on('user:enter', function(alias){
-    console.log(socket.id);
     users.push(alias);
-    console.log(users);
-
+    //gets user list and emits to everyone
     io.emit('getUserList', {
       users: users
     })
-
+    //gets specific user alias and sets as name to just that socket
     socket.emit('getUser', {
       name: alias
+    });
+    //User leaves chat room
+    socket.on('disconnect', function(){
+      console.log('User DISCONNECTED');
+      socket.broadcast.emit('user:left', {
+        users: users,
+        name: alias
+      });
     });
 
   });
@@ -32,12 +38,6 @@ io.on('connection', function(socket){
     io.emit('send:message', msg);
   });
 
-  // socket.on('disconnect', function(){
-  //   console.log('User DISCONNECTED');
-  //   socket.broadcast.emit('user:left', {
-  //     users: users
-  //   });
-  // });
 
 });
 

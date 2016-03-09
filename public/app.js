@@ -21,7 +21,7 @@ var App = React.createClass({
     );
   }
 });
-
+//Form for a user to pick an alias
 var AliasPicker = React.createClass({
 	enterChat: function(event) {
 		event.preventDefault();
@@ -42,9 +42,9 @@ var AliasPicker = React.createClass({
 	}
 })
 
+//This component will show all the users who are connected
 var UsersList = React.createClass({
 	render: function() {
-
 		return (
 			<div className='users'>
 				<h3> Online Users </h3>
@@ -64,6 +64,7 @@ var UsersList = React.createClass({
 	}
 });
 
+//This component is for any message that is entered from the MessageForm Component
 var Message = React.createClass({
 	render: function() {
 		return (
@@ -75,6 +76,7 @@ var Message = React.createClass({
 	}
 });
 
+//This is the component that renders all the messages
 var MessageList = React.createClass({
 	render: function() {
 		return (
@@ -96,6 +98,7 @@ var MessageList = React.createClass({
 	}
 });
 
+//This component is form for the user to submit a message
 var MessageForm = React.createClass({
 	getInitialState() {
 		return {
@@ -131,6 +134,7 @@ var MessageForm = React.createClass({
 	}
 });
 
+//This is the component that holds the whole chat room
 var AppChat = React.createClass({
   getInitialState: function() {
     return{
@@ -163,7 +167,6 @@ var AppChat = React.createClass({
     });
   },
   userJoins: function(data) {
-    console.log(data);
     if(data.name){
       var messages = this.state.messages;
       var name = data.name;
@@ -188,7 +191,7 @@ var AppChat = React.createClass({
     var name = data.name;
     users.splice(users.indexOf(name),1);
     messages.push({
-      text: name + 'has left the building'
+      text: name + ' has left the building'
     });
     this.setState({
       users: users,
@@ -223,6 +226,7 @@ var AppChat = React.createClass({
   }
 });
 
+//This is setup of routes to go from AliasPicker to AppChat
 var routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
