@@ -7,15 +7,21 @@ var io = require('socket.io')(http);
 var users = [];
 
 io.on('connection', function(socket){
-
   //After user submits an alias
   socket.on('user:enter', function(alias){
-    console.log('User CONNECTED');
+
+    //add the current user to the users array
+    users.push(alias);
+    //console.log('User CONNECTED');
+
     //send the new user their name and list of users
     socket.broadcast.emit('initialize', {
       name: alias,
       users: users
     });
+    socket.emit('initialize', {
+      users: users
+    })
 
     // notify other sockets that a new user has joined
     socket.broadcast.emit('user:join', {
@@ -31,16 +37,13 @@ io.on('connection', function(socket){
 
     //User leaves chat room
     socket.on('disconnect', function(){
-      console.log('User DISCONNECTED');
+      //console.log('User DISCONNECTED');
       socket.broadcast.emit('user:left', {
         name: alias
       });
     });
 
   });
-
-
-
 
 });
 

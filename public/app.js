@@ -155,15 +155,13 @@ var AppChat = React.createClass({
     var name = data.name;
     this.setState({
       users: users,
-      name: name,
-      user: data.user
+      user: name
     });
   },
   userJoins: function(data) {
     var users = this.state.users;
     var messages = this.state.messages;
     var name = data.name;
-    users.push(name);
     messages.push({
       user: 'ADMIN',
       text: name + ' has joined the building'
