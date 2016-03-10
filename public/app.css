@@ -68,8 +68,6 @@ body {
 */
 
 #appChat {
-  border: 1px solid black;
-  border-radius: 10px;
   display: flex;
   justify-content: center;
 }
@@ -77,28 +75,56 @@ body {
   list-style: none;
 }
 .userComponent{
-  margin-left: 10px;
+  padding-left: 30px;
   text-align: start;
   flex-basis: 20%;
+  border: 3px solid white;
+  border-radius: 10px;
 }
 .messageComponent{
   flex-basis: 80%;
+  border: 3px solid white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin_message{
+  color: yellow;
+  font-weight: bold;
+}
+.message{
+  padding: 3px;
+}
+.userElement{
+  font-weight: bold;
 }
 /*
   Styling message form input box
 */
-.messageForm {
-  width: 450px;
-  margin: 17% auto;
-}
-
-.messageInput {
+.messageFormDiv{
   display: flex;
   align-items: center;
 }
 
+.messageForm {
+  width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messageInput {
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  padding: 10px;
+}
+
 .messageButton {
-  height: 22px;
+  height: 29px;
   border: none;
 }
 
@@ -114,7 +140,7 @@ body {
 
 #sendMessage {
   width: 20%;
-  height: 23px;
+  height: 30px;
   background: #009933;
   font-family: inherit;
   font-weight: bold;

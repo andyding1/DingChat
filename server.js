@@ -10,7 +10,7 @@ io.on('connection', function(socket){
   //After user submits an alias
   socket.on('user:enter', function(alias){
 
-    //add the current user to the users array
+    //add the current socket user to the users array
     users.push(alias);
     //console.log('User CONNECTED');
 
@@ -38,6 +38,7 @@ io.on('connection', function(socket){
     //User leaves chat room
     socket.on('disconnect', function(){
       //console.log('User DISCONNECTED');
+      //removes socket user from the user list
       var index = users.indexOf(alias)
       users.splice(index,1);
 

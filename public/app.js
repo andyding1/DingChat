@@ -12,6 +12,8 @@ var io = require('socket.io-client');
 
 var socket = io.connect();
 
+const ADMIN_USER = 'ADMIN'
+
 var App = React.createClass({
   render: function() {
     return (
@@ -55,7 +57,7 @@ var UsersList = React.createClass({
 					{
 						this.props.users.map((user, i) => {
 							return (
-								<li key={i}>
+								<li key={i} className="userElement">
 									{user}
 								</li>
 							);
@@ -70,12 +72,22 @@ var UsersList = React.createClass({
 //This component is for any message that is entered from the MessageForm Component
 var Message = React.createClass({
 	render: function() {
-		return (
-			<div className="message">
-        <strong>{this.props.users}: </strong>
-				<span>{this.props.text}</span>
-			</div>
-		);
+    if (this.props.users === ADMIN_USER){
+      return (
+        <div className="message admin_message">
+          <strong>{this.props.users}: </strong>
+  				<span>{this.props.text}</span>
+  			</div>
+      );
+    }
+    else {
+  		return (
+  			<div className="message">
+          <strong>{this.props.users}: </strong>
+  				<span>{this.props.text}</span>
+  			</div>
+  		);
+    }
 	}
 });
 
@@ -123,6 +135,7 @@ var MessageForm = React.createClass({
 
 	render: function() {
 		return(
+        <div className="messageFormDiv">
 				<form onSubmit={this.handleSubmit} className="messageForm">
           <div className="messageInput">
   					<input
@@ -130,10 +143,12 @@ var MessageForm = React.createClass({
   						value={this.state.text}
               className="messageButton"
               id="messageBox"
+              autoComplete="off"
   					/>
             <input type="submit" value="SEND" className="messageButton" id="sendMessage"></input>
           </div>
 				</form>
+        </div>
 		);
 	}
 });
@@ -167,7 +182,7 @@ var AppChat = React.createClass({
     var messages = this.state.messages;
     var name = data.name;
     messages.push({
-      user: 'ADMIN',
+      user: ADMIN_USER,
       text: name + ' has joined the building'
     });
     this.setState({
@@ -176,11 +191,12 @@ var AppChat = React.createClass({
     });
   },
   userLeaves: function(data) {
-    var users = this.data.users;
+    console.log(data);
+    var users = data.users;
     var messages = this.state.messages;
     var name = data.name;
     messages.push({
-      user: 'ADMIN',
+      user: ADMIN_USER,
       text: name + ' has left the building'
     })
     this.setState({
