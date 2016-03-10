@@ -74,12 +74,6 @@ body {
 .usersList{
   list-style: none;
 }
-.userComponent{
-  padding-left: 30px;
-  text-align: end;
-  /*flex-basis: 30%;*/
-  display: none;
-}
 .messageComponent{
   /*flex-basis: 70%;*/
   display: flex;
@@ -136,7 +130,7 @@ body {
 }
 
 .messageButton {
-  height: 4em;
+  height: 3em;
   border: none;
 }
 
@@ -152,7 +146,7 @@ body {
 
 #sendMessage {
   width: 10%;
-  height: 4em;
+  height: 3em;
   background: #009933;
   font-family: inherit;
   font-weight: bold;
@@ -165,25 +159,4 @@ body {
 
 #sendMessage:hover {
   background: #00802b;
-}
-
-/*
-  React Animations
-*/
-.messageAnimation-enter {
-  opacity: 0.01;
-}
-
-.messageAnimation-enter.messageAnimation-enter-active {
-  opacity: 1;
-  transition: all 500ms ease-in;
-}
-
-.messageAnimation-leave {
-  opacity: 1;
-}
-
-.messageAnimation-leave.messageAnimation-leave-active {
-  opacity: 0.01;
-  transition: all 300ms ease-in;
 }

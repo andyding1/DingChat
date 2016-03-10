@@ -51,21 +51,38 @@ var AliasPicker = React.createClass({
 
 //This component will show all the users who are connected
 var UsersList = React.createClass({
+  getInitialState: function() {
+     return {
+         visible: false
+     };
+   },
+   show: function(e) {
+     console.log(e)
+    document.addEventListener("click", this.hide.bind(this));
+     this.setState({ visible: true });
+
+   },
+   hide: function() {
+     document.removeEventListener("click", this.hide);
+     this.setState({ visible: false });
+   },
 	render: function() {
 		return (
-			<div className="users">
-				<h3> Online Users </h3>
-				<ul className="usersList">
-					{
-						this.props.users.map((user, i) => {
-							return (
-								<li key={i} className="userElement">
-									{user}
-								</li>
-							);
-						})
-					}
-				</ul>
+			<div className="users menu">
+        <div className={(this.state.visible ? "visible " : "") + this.props.alignment}>
+  				<h3> Online Users </h3>
+  				<ul className="usersList">
+  					{
+  						this.props.users.map((user, i) => {
+  							return (
+  								<li key={i} className="userElement">
+  									{user}
+  								</li>
+  							);
+  						})
+  					}
+  				</ul>
+        </div>
 			</div>
 		);
 	}
@@ -128,7 +145,7 @@ var MessageList = React.createClass({
 
 		return (
 			<div className='messages'>
-				<h2> MessageList: </h2>
+				<h3> Messages: </h3>
         <div className='messageInputArea'>
         <ReactCSSTransitionGroup transitionName="messageAnimation" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
             	{messages}
@@ -259,24 +276,32 @@ var AppChat = React.createClass({
       color: color
     });
   },
+  //for react sliding menu
+  showLeft: function() {
+    this.refs.left.show();
+  },
   render: function() {
     return (
-      <div id="appChat">
-        <div className="userComponent">
+      <div>
+        <div>
+          <button onClick={this.showLeft}>Show Users!</button>
           <UsersList
   					users={this.state.users}
+            ref="left"
+            alignment="left"
   				/>
         </div>
-        <div className="messageComponent">
-          <MessageList
-            messages={this.state.messages}
-            color={this.state.color}
-          />
-          <MessageForm
-            onMessageSubmit={this.handleMessage}
-            user={this.state.user}
-          />
-
+        <div id="appChat">
+          <div className="messageComponent">
+            <MessageList
+              messages={this.state.messages}
+              color={this.state.color}
+            />
+            <MessageForm
+              onMessageSubmit={this.handleMessage}
+              user={this.state.user}
+            />
+          </div>
         </div>
       </div>
     );

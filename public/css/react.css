@@ -1,0 +1,61 @@
+/*
+  React Animations for Messages
+*/
+.messageAnimation-enter {
+  opacity: 0.01;
+}
+
+.messageAnimation-enter.messageAnimation-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+
+.messageAnimation-leave {
+  opacity: 1;
+}
+
+.messageAnimation-leave.messageAnimation-leave-active {
+  opacity: 0.01;
+  transition: all 300ms ease-in;
+}
+
+/*
+  React Sliding Menu
+*/
+.border-box {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.menu {
+  display: block;
+}
+.menu > div {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-transition: -webkit-transform ease 250ms;
+  -moz-transition: -webkit-transform ease 250ms;
+  -ms-transition: -webkit-transform ease 250ms;
+  -o-transition: -webkit-transform ease 250ms;
+  transition: -webkit-transform ease 250ms;
+  -webkit-transition: transform ease 250ms;
+  -moz-transition: transform ease 250ms;
+  -ms-transition: transform ease 250ms;
+  -o-transition: transform ease 250ms;
+  transition: transform ease 250ms;
+}
+.menu > div.left {
+  background: #273D7A;
+  left: -250px;
+}
+.menu > div.visible.left {
+  transform: translate3d(250px, 0, 0);
+  -ms-transform: translate3d(250px, 0, 0);
+  -webkit-transform: translate3d(250px, 0, 0);
+  -o-transform: translate3d(250px, 0, 0);
+  -moz-transform: translate3d(250px, 0, 0);
+}
