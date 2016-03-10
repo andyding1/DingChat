@@ -1,5 +1,5 @@
 body {
-  background: #002db3;
+  background: #800000;
   font-family: 'Lato', sans-serif;
   color: #FDFCFB;
   text-align: center;
@@ -9,13 +9,13 @@ body {
   This part styles the ALIASPICKER
 */
 .header {
-  font-size: 35px;
+  font-size: 2em;
   text-transform: uppercase;
   letter-spacing: 5px;
 }
 
 .aliasForm {
-  width: 450px;
+  width: 20%;
   margin: 17% auto;
 }
 
@@ -25,10 +25,10 @@ body {
 }
 
 .description {
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-size: 1em;
+  letter-spacing: .1em;
   line-height: 1.3em;
-  margin: -2px 0 45px;
+  margin: -.1em 0 3em;
 }
 
 #aliasBox {
@@ -36,19 +36,19 @@ body {
   background: #FDFCFB;
   font-family: inherit;
   color: #737373;
-  letter-spacing: 1px;
+  letter-spacing: .1em;
   text-indent: 5%;
   border-radius: 5px 0 0 5px;
 }
 
 .button {
-  height: 44px;
+  height: 3em;
   border: none;
 }
 
 #enter {
   width: 25%;
-  height: 46px;
+  height: 3em;
   background: #ff3300;
   font-family: inherit;
   font-weight: bold;
@@ -76,28 +76,42 @@ body {
 }
 .userComponent{
   padding-left: 30px;
-  text-align: start;
-  flex-basis: 20%;
-  border: 3px solid white;
-  border-radius: 10px;
+  text-align: end;
+  /*flex-basis: 30%;*/
+  display: none;
 }
 .messageComponent{
-  flex-basis: 80%;
-  border: 3px solid white;
-  border-radius: 10px;
+  /*flex-basis: 70%;*/
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.admin_message{
-  color: yellow;
-  font-weight: bold;
-}
 .message{
-  padding: 3px;
+  padding: .1em;
+  font-weight: bold;
+  font-size: 1em;
+}
+.admin_message{
+  font-style: italic;
+  font-size: 1.1em;
+  color: grey;
+}
+.messageTableText{
+  table-layout: fixed;
+  width: 100%;
+  word-wrap: break-word;
+}
+.messageInputArea{
+  height: 40em;
+  width: 60em;
+  overflow: auto;
+  background: white;
+  border: 2px solid black;
+  border-radius: 1px;
 }
 .userElement{
-  font-weight: bold;
+  font-weight: bolder;
+  padding: .1em;
 }
 /*
   Styling message form input box
@@ -108,28 +122,26 @@ body {
 }
 
 .messageForm {
-  width: 450px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .messageInput {
-  width: 500px;
+  width: 60em;
   display: flex;
   align-items: center;
   justify-content: center;
   align-self: flex-end;
-  padding: 10px;
 }
 
 .messageButton {
-  height: 29px;
+  height: 4em;
   border: none;
 }
 
 #messageBox {
-  width: 80%;
+  width: 90%;
   background: #FDFCFB;
   font-family: inherit;
   color: #737373;
@@ -139,8 +151,8 @@ body {
 }
 
 #sendMessage {
-  width: 20%;
-  height: 30px;
+  width: 10%;
+  height: 4em;
   background: #009933;
   font-family: inherit;
   font-weight: bold;
@@ -153,4 +165,25 @@ body {
 
 #sendMessage:hover {
   background: #00802b;
+}
+
+/*
+  React Animations
+*/
+.messageAnimation-enter {
+  opacity: 0.01;
+}
+
+.messageAnimation-enter.messageAnimation-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+
+.messageAnimation-leave {
+  opacity: 1;
+}
+
+.messageAnimation-leave.messageAnimation-leave-active {
+  opacity: 0.01;
+  transition: all 300ms ease-in;
 }

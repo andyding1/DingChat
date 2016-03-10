@@ -4,6 +4,8 @@ app.use(express.static("./public"));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var userColors = require('./colors.js');
+
 var users = [];
 
 io.on('connection', function(socket){
@@ -31,8 +33,13 @@ io.on('connection', function(socket){
     socket.on('send:message', function(data){
       io.emit('send:message', {
         user: alias,
-        text: data.text
+        text: data.text,
+        color: userColors.getColor(alias)
       });
+    });
+
+    socket.on('color:change', function(data){
+      userColors.addUser(alias, data.color);
     });
 
     //User leaves chat room

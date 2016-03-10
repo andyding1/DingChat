@@ -1,6 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
@@ -33,13 +35,13 @@ var AliasPicker = React.createClass({
 	},
 	render: function() {
 		return (
-			<form onSubmit={this.enterChat} className="aliasForm">
+			<form onSubmit={this.enterChat} className="aliasForm" autoComplete="off">
 				<div className="header"><p>Input an Alias</p></div>
         <div className="description">
           <p>Enter the chatroom by inputting an alias.</p>
         </div>
         <div className="aliasInput">
-					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS"></input>
+					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" maxLength="40"></input>
 					<input type="submit" className="button" value="ENTER" id="enter"></input>
         </div>
 			</form>
@@ -71,7 +73,17 @@ var UsersList = React.createClass({
 
 //This component is for any message that is entered from the MessageForm Component
 var Message = React.createClass({
+  componentDidUpdate: function(){
+    //This sets the messageInputArea to automatically scroll to the bottom
+    var objDiv = document.querySelector(".messageInputArea");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  },
 	render: function() {
+    var color = this.props.color;
+    var colorStyle = {
+      color: color
+    };
+    //adding specific class on admin messages for joining and leaving chat room for styling purposes
     if (this.props.users === ADMIN_USER){
       return (
         <div className="message admin_message">
@@ -82,7 +94,7 @@ var Message = React.createClass({
     }
     else {
   		return (
-  			<div className="message">
+  			<div className="message" style={colorStyle}>
           <strong>{this.props.users}: </strong>
   				<span>{this.props.text}</span>
   			</div>
@@ -94,24 +106,41 @@ var Message = React.createClass({
 //This is the component that renders all the messages
 var MessageList = React.createClass({
 	render: function() {
+
+    var messages = this.props.messages.map((message, i) => {
+      return (
+        <table className="messageTableText" key={i}>
+          <tbody>
+          <tr>
+            <td>
+            <Message
+              key={i}
+              users={message.user}
+              text={message.text}
+              color={message.color}
+            />
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      );
+    })
+
 		return (
 			<div className='messages'>
 				<h2> MessageList: </h2>
-				{
-					this.props.messages.map((message, i) => {
-						return (
-							<Message
-								key={i}
-                users={message.user}
-								text={message.text}
-							/>
-						);
-					})
-				}
+        <div className='messageInputArea'>
+        <ReactCSSTransitionGroup transitionName="messageAnimation" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+            	{messages}
+        </ReactCSSTransitionGroup>
+
+        </div>
 			</div>
 		);
 	}
 });
+
+
 
 //This component is form for the user to submit a message
 var MessageForm = React.createClass({
@@ -130,9 +159,14 @@ var MessageForm = React.createClass({
 		this.setState({ text: '' });
 	},
 	changeHandler(event) {
-		this.setState({ text : event.target.value });
+		this.setState({text: event.target.value});
 	},
-
+  colorHandler(event) {
+    socket.emit('color:change', {
+      color: event.target.value
+    }
+  );
+  },
 	render: function() {
 		return(
         <div className="messageFormDiv">
@@ -145,7 +179,12 @@ var MessageForm = React.createClass({
               id="messageBox"
               autoComplete="off"
   					/>
-            <input type="submit" value="SEND" className="messageButton" id="sendMessage"></input>
+            <input
+              type="color"
+              onChange={this.colorHandler}
+              className="messageButton"
+            />
+            <input type="submit" value="SEND" className="messageButton" id="sendMessage"/>
           </div>
 				</form>
         </div>
@@ -168,6 +207,7 @@ var AppChat = React.createClass({
     socket.on('user:join', this.userJoins);
     socket.on('user:left', this.userLeaves);
     socket.on('send:message', this.receiveMessage);
+    socket.on('color:change', this.receiveColor);
   },
   initialize: function(data) {
     var users = data.users;
@@ -214,6 +254,11 @@ var AppChat = React.createClass({
   handleMessage: function(message) {
     socket.emit('send:message', message);
   },
+  receiveColor: function(color) {
+    this.setState({
+      color: color
+    });
+  },
   render: function() {
     return (
       <div id="appChat">
@@ -225,11 +270,13 @@ var AppChat = React.createClass({
         <div className="messageComponent">
           <MessageList
             messages={this.state.messages}
+            color={this.state.color}
           />
           <MessageForm
             onMessageSubmit={this.handleMessage}
             user={this.state.user}
           />
+
         </div>
       </div>
     );
