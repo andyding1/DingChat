@@ -41,7 +41,7 @@ var AliasPicker = React.createClass({
           <p>Enter the chatroom by inputting an alias.</p>
         </div>
         <div className="aliasInput">
-					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" maxLength="14"></input>
+					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" pattern=".{1,}" required title="1 character minimum" maxLength="14"></input>
 					<input type="submit" className="button" value="ENTER" id="enter"></input>
         </div>
 			</form>
@@ -199,6 +199,7 @@ var MessageForm = React.createClass({
               type="color"
               onChange={this.colorHandler}
               className="messageButton"
+              id="colorPicker"
             />
             <input type="submit" value="SEND" className="messageButton" id="sendMessage"/>
           </div>
@@ -283,7 +284,7 @@ var AppChat = React.createClass({
     return (
       <div>
         <div>
-          <a className="userButton" onClick={this.showLeft}><span>Show Users!</span></a>
+          <button className="userButton hvr-glow" onClick={this.showLeft}>Show Users</button>
           <UsersList
   					users={this.state.users}
             ref="left"
@@ -307,16 +308,25 @@ var AppChat = React.createClass({
   }
 });
 
+// not found "page"
+var NotFound = React.createClass({
+  render: function() {
+    return (
+      <h2>Not Found!</h2>
+    );
+  }
+});
+
 //This is setup of routes to go from AliasPicker to AppChat
 var routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={AliasPicker}/>
       <Route path="chat" component={AppChat}/>
+      <Route path="*" component={NotFound}/>
     </Route>
   </Router>
 );
-
 
 // If this line of code is not here, nothing gets displayed!
 ReactDOM.render(routes, document.querySelector('#app'));

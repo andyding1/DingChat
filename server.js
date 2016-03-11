@@ -59,7 +59,7 @@ io.on('connection', function(socket){
 
 });
 
-
+//This is setup of routes to go from AliasPicker to AppChat
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/public/index.html');
 });

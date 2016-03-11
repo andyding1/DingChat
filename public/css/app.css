@@ -1,8 +1,19 @@
+html {
+  height: 100%;
+}
+
 body {
-  background: #800000;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a90329+0,8f0222+44,6d0019+100;Brown+Red+3D */
+  background: #a90329; /* Old browsers */
+  background: -moz-linear-gradient(top,  #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  #a90329 0%,#8f0222 44%,#6d0019 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background-repeat:no-repeat;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
   font-family: 'Lato', sans-serif;
   color: #FDFCFB;
   text-align: center;
+  box-sizing: border-box;
 }
 
 /*
@@ -32,7 +43,7 @@ body {
 }
 
 #aliasBox {
-  width: 75%;
+  width: 70%;
   background: #FDFCFB;
   font-family: inherit;
   color: #737373;
@@ -42,13 +53,13 @@ body {
 }
 
 .button {
-  height: 3em;
+  height: 4vh;
   border: none;
 }
 
 #enter {
-  width: 25%;
-  height: 3em;
+  width: 30%;
+  height: 4vh;
   background: #ff3300;
   font-family: inherit;
   font-weight: bold;
@@ -56,7 +67,7 @@ body {
   letter-spacing: 1px;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
-  transition: background .3s ease-in-out;
+  /*transition: background .3s ease-in-out;*/
 }
 
 #enter:hover {
@@ -82,12 +93,12 @@ body {
   align-items: center;
 }
 .messageInputArea{
-  height: 30em;
-  width: 50em;
+  height: 50vh;
+  width: 50vw;
   overflow: auto;
   background: white;
   border: 2px solid black;
-  border-radius: 1px;
+  /*border-radius: 1px;*/
   text-align: left;
 }
 .message{
@@ -113,51 +124,39 @@ body {
 /*
   Styling message form input box
 */
-.messageFormDiv{
-  display: flex;
-  align-items: center;
-}
-
-.messageForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .messageInput {
-  width: 50em;
+  width: 50vw;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  align-self: flex-end;
 }
 
-.messageButton {
-  height: 3em;
+.messageInput, .messageButton {
   border: none;
 }
 
 #messageBox {
-  width: 90%;
+  flex: 1;
   background: #FDFCFB;
   font-family: inherit;
   color: #737373;
-  letter-spacing: 1px;
-  text-indent: 5%;
-  border-radius: 5px 0 0 5px;
+  padding-left: 1em;
+  /*border-radius: 5px 0 0 5px;*/
 }
-
+#colorPicker {
+  height: 4vh;
+}
 #sendMessage {
-  width: 10%;
-  height: 3em;
   background: #009933;
   font-family: inherit;
   font-weight: bold;
   color: inherit;
-  letter-spacing: 1px;
-  border-radius: 0 5px 5px 0;
   cursor: pointer;
   transition: background .3s ease-in-out;
+  margin: 0;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 #sendMessage:hover {
@@ -167,35 +166,24 @@ body {
 /*
   Show User Button
 */
+
 .userButton {
-  position: relative;
-  width: 10em;
-
-  display: block;
-  margin: 30px auto;
-  padding: 0;
-
+  width: 8vw;
+  height: 4vh;
   overflow: hidden;
-
   border-width: 0;
   outline: none;
   border-radius: 2px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-
   background-color: #314d9b;
   color: #ecf0f1;
-
   transition: background-color .3s;
+  cursor: pointer;
 }
-
+/*
 .userButton:hover, .userButton:focus {
   background-color: #273D7A;
   cursor: pointer;
-}
-
-.userButton span {
-  display: block;
-  padding: 12px 24px;
 }
 
 .userButton:before {
@@ -220,4 +208,22 @@ body {
   width: 120%;
   padding-top: 120%;
   transition: width 1s ease-out, padding-top 1s ease-out;
+}*/
+
+.hvr-glow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow;
+  transition-property: box-shadow;
+}
+.hvr-glow:hover, .hvr-glow:focus, .hvr-glow:active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
