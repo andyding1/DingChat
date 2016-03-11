@@ -81,6 +81,15 @@ body {
   flex-direction: column;
   align-items: center;
 }
+.messageInputArea{
+  height: 30em;
+  width: 50em;
+  overflow: auto;
+  background: white;
+  border: 2px solid black;
+  border-radius: 1px;
+  text-align: left;
+}
 .message{
   padding: .1em;
   font-weight: bold;
@@ -90,19 +99,12 @@ body {
   font-style: italic;
   font-size: 1.02em;
   color: grey;
+  text-align: center;
 }
 .messageTableText{
   table-layout: fixed;
   width: 100%;
   word-wrap: break-word;
-}
-.messageInputArea{
-  height: 30em;
-  width: 50em;
-  overflow: auto;
-  background: white;
-  border: 2px solid black;
-  border-radius: 1px;
 }
 .userElement{
   font-weight: bolder;
