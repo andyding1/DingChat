@@ -41,7 +41,7 @@ var AliasPicker = React.createClass({
           <p>Enter the chatroom by inputting an alias.</p>
         </div>
         <div className="aliasInput">
-					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" maxLength="40"></input>
+					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" maxLength="14"></input>
 					<input type="submit" className="button" value="ENTER" id="enter"></input>
         </div>
 			</form>
@@ -57,8 +57,7 @@ var UsersList = React.createClass({
      };
    },
    show: function(e) {
-     console.log(e)
-    document.addEventListener("click", this.hide.bind(this));
+     document.addEventListener("click", this.hide);
      this.setState({ visible: true });
 
    },
@@ -284,7 +283,7 @@ var AppChat = React.createClass({
     return (
       <div>
         <div>
-          <button onClick={this.showLeft}>Show Users!</button>
+          <a className="userButton" onClick={this.showLeft}><span>Show Users!</span></a>
           <UsersList
   					users={this.state.users}
             ref="left"

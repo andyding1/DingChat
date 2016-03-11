@@ -73,6 +73,7 @@ body {
 }
 .usersList{
   list-style: none;
+  text-align: left;
 }
 .messageComponent{
   /*flex-basis: 70%;*/
@@ -87,7 +88,7 @@ body {
 }
 .admin_message{
   font-style: italic;
-  font-size: 1.1em;
+  font-size: 1.02em;
   color: grey;
 }
 .messageTableText{
@@ -96,8 +97,8 @@ body {
   word-wrap: break-word;
 }
 .messageInputArea{
-  height: 40em;
-  width: 60em;
+  height: 30em;
+  width: 50em;
   overflow: auto;
   background: white;
   border: 2px solid black;
@@ -122,7 +123,7 @@ body {
 }
 
 .messageInput {
-  width: 60em;
+  width: 50em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,4 +160,62 @@ body {
 
 #sendMessage:hover {
   background: #00802b;
+}
+
+/*
+  Show User Button
+*/
+.userButton {
+  position: relative;
+  width: 10em;
+
+  display: block;
+  margin: 30px auto;
+  padding: 0;
+
+  overflow: hidden;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+
+  background-color: #314d9b;
+  color: #ecf0f1;
+
+  transition: background-color .3s;
+}
+
+.userButton:hover, .userButton:focus {
+  background-color: #273D7A;
+  cursor: pointer;
+}
+
+.userButton span {
+  display: block;
+  padding: 12px 24px;
+}
+
+.userButton:before {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  border-radius: 100%;
+
+  background-color: rgba(236, 240, 241, .3);
+
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.userButton:active:before {
+  width: 120%;
+  padding-top: 120%;
+  transition: width 1s ease-out, padding-top 1s ease-out;
 }
