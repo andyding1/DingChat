@@ -41,7 +41,7 @@ var AliasPicker = React.createClass({
           <p>Enter the chatroom by inputting an alias.</p>
         </div>
         <div className="aliasInput">
-					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" pattern=".{1,}" required title="1 character minimum" maxLength="14"></input>
+					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" pattern=".{1,}" required title="Enter an Alias" maxLength="14"></input>
 					<input type="submit" className="button" value="ENTER" id="enter"></input>
         </div>
 			</form>
@@ -240,7 +240,7 @@ var AppChat = React.createClass({
     var name = data.name;
     messages.push({
       user: ADMIN_USER,
-      text: name + ' has joined the building'
+      text: name + ' has joined the room'
     });
     this.setState({
       users: users,
@@ -254,7 +254,7 @@ var AppChat = React.createClass({
     var name = data.name;
     messages.push({
       user: ADMIN_USER,
-      text: name + ' has left the building'
+      text: name + ' has left the room'
     })
     this.setState({
       users: users,
