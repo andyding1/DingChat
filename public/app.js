@@ -25,28 +25,49 @@ var App = React.createClass({
     );
   }
 });
-//Form for a user to pick an alias
+
+var AppCombined = React.createClass({
+  getInitialState: function() {
+    return {
+      aliasPicked: false
+    }
+  },
+  aliasHasBeenPicked: function() {
+    this.setState({ aliasPicked: true});
+  },
+	render: function() {
+		return (
+      <div>
+        { this.state.aliasPicked ? <AppChat /> : <AliasPicker aliasHasBeenPicked={this.aliasHasBeenPicked} /> }
+      </div>
+		);
+	}
+})
+
+//This component allows the user to enter an alias
 var AliasPicker = React.createClass({
-	enterChat: function(event) {
+  enterChat: function(event) {
 		event.preventDefault();
 		var alias = this.refs.alias.value
     socket.emit('user:enter', alias);
-		browserHistory.push('/chat');
+    //this will set state for aliasPicked to true in AppCombined component to render AppChat
+    this.props.aliasHasBeenPicked();
+		//browserHistory.push('/chat');
 	},
-	render: function() {
-		return (
-			<form onSubmit={this.enterChat} className="aliasForm" autoComplete="off">
-				<div className="header"><p>Input an Alias</p></div>
+  render: function() {
+    return (
+      <form onSubmit={this.enterChat} className="aliasForm" autoComplete="off">
+        <div className="header"><p>Input an Alias</p></div>
         <div className="description">
           <p>Enter the chatroom by inputting an alias.</p>
         </div>
         <div className="aliasInput">
-					<input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" pattern=".{1,}" required title="Enter an Alias" maxLength="14"></input>
-					<input type="submit" className="button" value="ENTER" id="enter"></input>
+          <input ref="alias" type="text" id="aliasBox" className="button" placeholder="ALIAS" pattern=".{1,}" required title="Enter an Alias" maxLength="14"></input>
+          <input type="submit" className="button" value="ENTER" id="enter"></input>
         </div>
-			</form>
-		);
-	}
+      </form>
+    );
+  }
 })
 
 //This component will show all the users who are connected
@@ -155,8 +176,6 @@ var MessageList = React.createClass({
 		);
 	}
 });
-
-
 
 //This component is form for the user to submit a message
 var MessageForm = React.createClass({
@@ -312,7 +331,10 @@ var AppChat = React.createClass({
 var NotFound = React.createClass({
   render: function() {
     return (
-      <h2>Not Found!</h2>
+      <div>
+        <h2>Page Not Found!</h2>
+        <a href="/" id="mainPageRedirect">Back to Main Page</a>
+      </div>
     );
   }
 });
@@ -321,8 +343,8 @@ var NotFound = React.createClass({
 var routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={AliasPicker}/>
-      <Route path="chat" component={AppChat}/>
+      <IndexRoute component={AppCombined}/>
+      {/*<Route path="chat" component={AppChat}/>*/}
       <Route path="*" component={NotFound}/>
     </Route>
   </Router>

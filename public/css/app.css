@@ -227,3 +227,10 @@ body {
 .hvr-glow:hover, .hvr-glow:focus, .hvr-glow:active {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
+
+/*
+  Page Not Found
+*/
+#mainPageRedirect {
+  color: yellow;
+}
