@@ -32,7 +32,9 @@ body {
 
 .aliasInput {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  justify-content: center;
+  border: none;
 }
 
 .description {
@@ -44,6 +46,7 @@ body {
 
 #aliasBox {
   width: 70%;
+  flex: 1;
   background: #FDFCFB;
   font-family: inherit;
   color: #737373;
@@ -53,13 +56,12 @@ body {
 }
 
 .button {
-  height: 4vh;
   border: none;
 }
 
 #enter {
-  width: 30%;
   height: 4vh;
+  width: 30%;
   background: #ff3300;
   font-family: inherit;
   font-weight: bold;
